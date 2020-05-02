@@ -1,0 +1,145 @@
+#kivy
+#by Ahmet_Unluhisarcikli
+
+<Filechooser>:
+
+    label: label
+    image: image
+    encr_image: encr_image
+    button_text : button_text
+    secr : secr
+
+
+    # Providing the orentation
+    orientation: 'vertical'
+
+    BoxLayout:
+
+        # Creating list view one side
+        FileChooserListView:
+            filters:['\*.png','\*.jpg','\*.jpeg'] # filtering the image formats
+
+            canvas.before:
+                Color:
+                    rgb: .4, .5, .5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            on_selection: root.select(*args)
+
+    Label:
+        text:'CHOOSABLE IMAGE FORMATS are PNG, JPG and JPEG'
+        size_hint_y: .16
+
+    BoxLayout:
+        id : secr
+        rows: 1
+        cols: 4
+        size_hint_y: .1
+
+        Label:
+            bold: True
+            font_size: 20
+            text :'SECURITY:'
+
+        Label:
+
+            text: 'HIGH'
+            text_size: self.size
+            valign: 'center'
+            halign: 'right'
+
+        CheckBox:
+
+            text:'8'
+            group: 'check'
+            active: True
+            on_active:
+                root.secr = self.text
+
+        Label:
+
+            text: 'MEDIUM'
+            text_size: self.size
+            valign: 'center'
+            halign: 'right'
+
+        CheckBox:
+
+            text:'6'
+            group: 'check'
+            on_active:
+                root.secr = self.text
+
+
+
+        Label:
+
+            text: 'LOW'
+            text_size: self.size
+            valign: 'center'
+            halign: 'right'
+
+        CheckBox:
+
+            text:'4'
+            group: 'check'
+            on_active:
+                root.secr = self.text
+
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+        BoxLayout:
+            orientation: 'vertical'
+
+
+            Image:
+                id: image
+                size: self.texture_size
+                canvas:
+                    Color:
+                        rgb: (1, 1, 1)
+                    Rectangle:
+                        texture: self.texture
+                        size: self.width , self.height
+                        pos: self.x , self.y
+            Label:
+                text:'INPUT IMAGE'
+                size_hint_y: .16
+
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            Image:
+                id: encr_image
+                size: self.texture_size
+                canvas:
+                    Color:
+                        rgb: (1, 1, 1)
+                    Rectangle:
+                        texture: self.texture
+                        size: self.width , self.height
+                        pos: self.x , self.y
+
+            Label:
+                text:'ENCRYPTED IMAGE'
+                size_hint_y: .16
+
+    Button:
+        id : button_text
+        text : 'NO IMAGE'
+        size_hint_y: .16
+        on_release:
+            root.btn()
+            self.text='READY'
+        on_press:
+            self.text='LOADING' # while processing
+
+
+    # shows directory
+    Label:
+        id: label
+        size_hint_y: .1
